@@ -1,0 +1,489 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: #ffffff;
+    min-height: 100vh;
+    padding: 20px;
+    color: #000000;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+    position: relative;
+    z-index: 1;
+}
+
+header {
+    background: #ffffff;
+    color: #000000;
+    padding: 40px 30px 30px;
+    text-align: center;
+    position: relative;
+    border-bottom: none;
+    box-shadow: none;
+}
+
+header::before {
+    display: none;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.mascot-container {
+    flex-shrink: 0;
+}
+
+.mascot-image {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.header-text {
+    text-align: center;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+header h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+    text-shadow: none;
+    color: #000000;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.subtitle {
+    opacity: 1;
+    font-size: 1em;
+    position: relative;
+    z-index: 1;
+    color: #666666;
+    font-weight: 400;
+    margin-top: 15px;
+}
+
+main {
+    padding: 40px 30px;
+}
+
+/* 状态卡片 */
+.status-card {
+    background: #000000;
+    border-radius: 40px;
+    padding: 50px 40px;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.status-card::before {
+    display: none;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.timer-display {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.time {
+    font-size: 6em;
+    font-weight: 800;
+    line-height: 1;
+    color: #CDFF00;
+    text-shadow: none;
+}
+
+.unit {
+    font-size: 1.8em;
+    margin-left: 10px;
+    opacity: 1;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.action-text {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-shadow: none;
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+}
+
+/* 进度条 */
+.progress-bar {
+    background: rgba(255, 255, 255, 0.2);
+    height: 12px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    box-shadow: none;
+}
+
+.progress-fill {
+    background: #CDFF00;
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 20px;
+    box-shadow: none;
+}
+
+/* 控制按钮 */
+.controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.btn {
+    flex: 1;
+    padding: 18px 35px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    display: none;
+}
+
+.btn-primary {
+    background: #CDFF00;
+    color: #000000;
+    box-shadow: 0 4px 20px rgba(205, 255, 0, 0.3);
+    border: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(205, 255, 0, 0.4);
+    background: #CDFF00;
+}
+
+.btn-secondary {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+}
+
+.btn-secondary:hover {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* 统计信息 */
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 50px;
+    background: #000000;
+    padding: 40px;
+    border-radius: 40px;
+}
+
+.stat-item {
+    background: transparent;
+    padding: 20px;
+    border-radius: 0;
+    text-align: center;
+    border: none;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-3px);
+    box-shadow: none;
+    border-color: transparent;
+}
+
+.stat-value {
+    font-size: 3em;
+    font-weight: 800;
+    color: #CDFF00;
+    margin-bottom: 5px;
+    text-shadow: none;
+}
+
+.stat-label {
+    color: #ffffff;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+/* 新闻区域 */
+.news-section {
+    margin-bottom: 40px;
+}
+
+.news-section h3 {
+    color: #000000;
+    margin-bottom: 20px;
+    font-size: 2em;
+    text-shadow: none;
+    font-weight: 800;
+}
+
+.news-container {
+    background: #ffffff;
+    border-radius: 30px;
+    padding: 25px;
+    max-height: 350px;
+    overflow-y: auto;
+    border: 2px solid #f0f0f0;
+    box-shadow: none;
+}
+
+.news-item {
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    border-left: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #f0f0f0;
+}
+
+.news-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border-left-color: transparent;
+    background: #ffffff;
+    border-color: #CDFF00;
+}
+
+.news-item:last-child {
+    margin-bottom: 0;
+}
+
+.news-title {
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 8px;
+    font-size: 1.05em;
+    line-height: 1.5;
+}
+
+.news-description {
+    font-size: 0.95em;
+    color: #666666;
+    line-height: 1.6;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-time {
+    font-size: 0.85em;
+    color: #999999;
+}
+
+.loading {
+    text-align: center;
+    color: #666666;
+    padding: 20px;
+}
+
+/* 设置区域 */
+.settings {
+    background: #f8f8f8;
+    border-radius: 30px;
+    padding: 30px;
+    border: none;
+    box-shadow: none;
+}
+
+.settings h3 {
+    color: #000000;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    text-shadow: none;
+    font-weight: 800;
+}
+
+.setting-item {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.setting-item label {
+    color: #333333;
+    font-weight: 600;
+}
+
+.setting-item input[type="number"] {
+    width: 80px;
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: 1em;
+    text-align: center;
+    background: #ffffff;
+    color: #000000;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.setting-item input[type="number"]:focus {
+    outline: none;
+    border-color: #CDFF00;
+    box-shadow: 0 0 0 3px rgba(205, 255, 0, 0.1);
+}
+
+.setting-item input[type="checkbox"] {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #CDFF00;
+}
+
+.setting-item input[type="range"] {
+    flex: 1;
+    margin: 0 15px;
+    cursor: pointer;
+    accent-color: #CDFF00;
+}
+
+#volumeValue {
+    min-width: 50px;
+    color: #000000;
+    font-weight: 700;
+    text-shadow: none;
+}
+
+footer {
+    background: transparent;
+    padding: 30px 20px;
+    text-align: center;
+    color: #666666;
+    font-size: 0.9em;
+    border-top: none;
+}
+
+/* 滚动条美化 */
+.news-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.news-container::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.news-container::-webkit-scrollbar-thumb {
+    background: #CDFF00;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+.news-container::-webkit-scrollbar-thumb:hover {
+    background: #b8e600;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+    }
+    
+    .mascot-image {
+        width: 120px;
+        height: 120px;
+    }
+    
+    header h1 {
+        font-size: 2.2em;
+    }
+    
+    .time {
+        font-size: 4.5em;
+    }
+    
+    .action-text {
+        font-size: 1.5em;
+    }
+    
+    .controls {
+        flex-direction: column;
+    }
+    
+    .stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .news-section h3 {
+        font-size: 1.6em;
+    }
+    
+    .settings h3 {
+        font-size: 1.5em;
+    }
+}
