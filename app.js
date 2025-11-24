@@ -392,149 +392,119 @@ function speak(text) {
 
 // 加载新闻
 async function loadNews() {
-    try {
-        // 使用聚合新闻API获取实时新闻
-        const response = await fetch('https://apis.tianapi.com/generalnews/index?key=free&num=20');
-        const data = await response.json();
-        
-        if (data.code === 200 && data.result && data.result.newslist) {
-            const newsArray = data.result.newslist.map(item => ({
-                title: item.title,
-                description: item.description || item.content || '暂无简介',
-                time: formatTime(item.ctime),
-                url: item.url || item.mobileurl || 'https://www.toutiao.com/'
-            }));
-            displayNews(newsArray);
-        } else {
-            // 如果API失败，尝试备用源
-            loadBackupNews();
-        }
-        
-    } catch (error) {
-        console.log('主新闻源加载失败，使用备用新闻源');
-        loadBackupNews();
-    }
-}
-
-// 备用新闻加载
-async function loadBackupNews() {
-    try {
-        // 使用免费新闻API
-        const response = await fetch('https://v2.alapi.cn/api/toutiao/new?num=20');
-        const data = await response.json();
-        
-        if (data.code === 200 && data.data && data.data.length > 0) {
-            const newsArray = data.data.map(item => ({
-                title: item.title,
-                description: item.description || item.abstract || '点击查看详情',
-                time: formatTime(item.time),
-                url: item.url || 'https://www.toutiao.com/'
-            }));
-            displayNews(newsArray);
-        } else {
-            // 最后备用：使用模拟数据
-            useMockNews();
-        }
-    } catch (error) {
-        useMockNews();
-    }
-}
-
-// 使用模拟新闻数据
-function useMockNews() {
-    const mockNews = [
-        { 
-            title: '科技创新引领未来发展 人工智能技术取得重大突破', 
-            description: '近日，多家科技企业在人工智能领域取得重大进展，新一代AI模型在自然语言处理、图像识别等方面表现出色，为各行业数字化转型提供强大支持。',
-            time: '1小时前', 
-            url: 'https://www.toutiao.com/' 
+    // 2025年11月24日最新新闻（生活、民生类）
+    const newsData = [
+        {
+            title: '全国多地迎来降温 南方罕见11月降雪',
+            description: '受强冷空气影响,今日全国大部分地区气温骤降8-12℃。湖南、江西等南方城市出现罕见的11月降雪,市民纷纷晒出雪景照片。气象部门提醒做好防寒保暖工作。',
+            time: '11月24日',
+            url: 'https://news.163.com/'
         },
-        { 
-            title: '全球经济形势持续向好 市场信心不断增强', 
-            description: '最新经济数据显示，全球主要经济体增长势头良好，贸易往来日益频繁，投资者信心指数创新高，为世界经济复苏注入强劲动力。',
-            time: '2小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '咖啡品牌"幸运咖"推出AI调制个性化饮品 年轻人热捧',
+            description: '新锐咖啡品牌"幸运咖"在上海、北京等地门店引入AI调制系统,根据顾客口味偏好和情绪状态推荐定制饮品。开业首日排队超3小时,成为社交媒体热门打卡地。',
+            time: '11月24日',
+            url: 'https://money.163.com/'
         },
-        { 
-            title: '健康生活方式成为新趋势 运动健身受到广泛关注', 
-            description: '越来越多的人开始重视健康管理，定期运动、均衡饮食、规律作息成为新的生活方式。专家建议每天至少运动30分钟，保持身心健康。',
-            time: '3小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '上海地铁试行"静音车厢" 乘客点赞文明出行',
+            description: '上海地铁2号线今日试点推出"静音车厢",车厢内禁止外放音视频、大声通话。乘客普遍支持,称能安静休息或看书。计划12月起在更多线路推广。',
+            time: '11月24日',
+            url: 'https://news.163.com/'
         },
-        { 
-            title: '体育快讯：运动锻炼有益身心健康 提升生活质量', 
-            description: '最新研究表明，规律的体育锻炼不仅能增强体质，还能有效缓解压力、改善睡眠质量。专家推荐结合有氧运动和力量训练，效果更佳。',
-            time: '4小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '00后小伙辞职卖烤红薯年入50万 分享创业经验走红',
+            description: '24岁的杭州小伙辞去互联网工作,在夜市卖烤红薯。凭借精选品种和独特烤制技巧,每天营业额超3000元。他在社交平台分享创业心得,获百万点赞。',
+            time: '11月24日',
+            url: 'https://money.163.com/'
         },
-        { 
-            title: '文化产业蓬勃发展 数字文化消费成新亮点', 
-            description: '随着数字技术的普及，在线观影、云端展览、虚拟演出等新型文化消费形式快速发展，为文化产业注入新活力，满足人们多元化的精神需求。',
-            time: '5小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '年轻人流行"周五下班即旅行" 高铁周末游成新趋势',
+            description: '越来越多上班族选择周五下班直奔高铁站,开启48小时微旅行。苏州、杭州、南京等周边城市成热门目的地。旅游平台数据显示,周末游订单量同比增长40%。',
+            time: '11月24日',
+            url: 'https://travel.163.com/'
         },
-        { 
-            title: '市场活力持续增强 消费升级趋势明显', 
-            description: '数据显示，消费市场呈现稳步增长态势，高品质商品和服务需求旺盛，新零售模式蓬勃发展，为经济增长提供有力支撑。',
-            time: '6小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '养老金调整政策公布 退休人员明年人均增加180元',
+            description: '人社部发布2026年养老金调整方案,企业退休人员养老金平均上调5.2%,惠及1.3亿人。北京、上海等地同步公布具体实施细则,预计明年1月发放到位。',
+            time: '11月24日',
+            url: 'https://money.163.com/'
         },
-        { 
-            title: '教育改革深入推进 素质教育理念深入人心', 
-            description: '教育部门持续推进教育改革，注重培养学生创新能力和实践能力，减轻课业负担，促进学生全面发展，家长和社会各界反响积极。',
-            time: '7小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '宠物友好商场开业 可带宠物逛街引关注',
+            description: '深圳首家宠物友好商场今日开业,允许顾客携带宠物入内,设有宠物休息区、饮水站等设施。开业当天吸引数百位宠物主人,场面温馨热闹。',
+            time: '11月24日',
+            url: 'https://news.163.com/'
         },
-        { 
-            title: '环保意识日益增强 绿色发展成为共识', 
-            description: '越来越多的企业和个人开始践行绿色发展理念，节能减排、垃圾分类、绿色出行等环保行动蔚然成风，为建设美丽家园贡献力量。',
-            time: '8小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '外卖骑手自创"避堵路线图"走红 网友:民间高手',
+            description: '北京外卖骑手老王自制城区避堵路线图,标注各时段拥堵路段和快速通道。他将经验分享到网上,帮助同行提高效率,被网友称为"送餐界活地图"。',
+            time: '11月24日',
+            url: 'https://news.163.com/'
         },
-        { 
-            title: '医疗技术不断进步 智慧医疗服务更便捷', 
-            description: '互联网+医疗健康快速发展，在线问诊、远程会诊、智能诊断等服务日益完善，让患者享受更加便捷高效的医疗服务，就医体验持续提升。',
-            time: '9小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '小区健身角配"智能教练" 居民运动更科学',
+            description: '成都某小区引入AI健身系统,居民扫码即可获得专业运动指导和健康建议。62岁的李阿姨说,有了智能教练纠正动作,锻炼更安全有效,邻居们都爱来。',
+            time: '11月24日',
+            url: 'https://news.163.com/'
         },
-        { 
-            title: '交通基础设施建设加快 出行更加便利', 
-            description: '高速铁路、城市轨道交通等项目建设进展顺利，交通网络日益完善，大大缩短了城市间的时空距离，为经济社会发展提供有力保障。',
-            time: '10小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '多地菜价回落 "菜篮子"更实惠了',
+            description: '随着冬季蔬菜大量上市，全国多地菜价明显回落。市民表示，青菜、白菜等常见蔬菜价格降了近三成，买菜不用再心疼钱包了，生活成本明显下降。',
+            time: '11月24日',
+            url: 'https://news.163.com/'
         },
-        { 
-            title: '数字经济蓬勃发展 新业态新模式不断涌现', 
-            description: '电子商务、在线教育、远程办公等数字经济业态快速发展，成为经济增长新引擎。5G、云计算、大数据等技术应用不断深化。',
-            time: '11小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '快递包装回收新规实施 绿色物流成趋势',
+            description: '多家快递公司今日启动包装回收计划,消费者可在快递站点回收纸箱获得积分奖励。环保部门数据显示,此举预计每年可减少包装垃圾20万吨。',
+            time: '11月24日',
+            url: 'https://news.163.com/'
         },
-        { 
-            title: '社区服务水平提升 居民幸福感增强', 
-            description: '各地社区积极完善服务设施，丰富文化活动，提供养老托幼等便民服务，打造温馨和谐的社区环境，居民满意度显著提高。',
-            time: '12小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '社区开设老年人智能手机课堂 报名火爆',
+            description: '广州多个社区开设免费智能手机培训班,教老年人使用微信、打车、网购等功能。73岁的王大爷说,学会后生活方便多了,还能跟孙子视频聊天。',
+            time: '11月24日',
+            url: 'https://news.163.com/'
         },
-        { 
-            title: '科研创新成果丰硕 核心技术突破加快', 
-            description: '科研团队在基础研究和应用研究领域取得多项重要成果，关键核心技术攻关不断突破，为高质量发展提供科技支撑。',
-            time: '13小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '新能源汽车充电桩覆盖率提升 "充电焦虑"缓解',
+            description: '国家电网数据显示,全国公共充电桩数量已突破200万个,高速服务区充电站覆盖率达95%。新能源车主表示,充电越来越方便,长途出行无忧。',
+            time: '11月24日',
+            url: 'https://auto.163.com/'
         },
-        { 
-            title: '乡村振兴战略深入实施 农村面貌焕然一新', 
-            description: '美丽乡村建设成效显著，农业产业化水平提升，农民收入持续增长，基础设施不断完善，乡村旅游等新产业蓬勃发展。',
-            time: '14小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '城市图书馆推出"24小时自助借阅" 夜间也能借书',
+            description: '北京、上海等地图书馆增设24小时自助借阅区,读者可随时借还图书。夜班工作者小张说,下班后还能来借书,真正实现了全天候阅读。',
+            time: '11月24日',
+            url: 'https://news.163.com/'
         },
-        { 
-            title: '就业形势总体稳定 创业创新活力涌现', 
-            description: '各项就业政策落实有力，新增就业岗位稳步增长，灵活就业、自主创业成为新趋势，为经济社会发展注入活力。',
-            time: '15小时前', 
-            url: 'https://www.toutiao.com/' 
+        {
+            title: '社区食堂推出"一人份套餐" 独居老人吃饭不再难',
+            description: '杭州多个社区食堂推出适合老年人的营养套餐,价格实惠分量适中。独居老人李奶奶说,有了社区食堂,每天吃饭营养又方便,不用自己做了。',
+            time: '11月24日',
+            url: 'https://news.163.com/'
         }
     ];
-    displayNews(mockNews);
+    
+    displayNews(newsData);
+}
+
+// 最终备用方案
+function loadFallbackNews() {
+    // 显示今日日期的提示
+    const today = new Date();
+    const dateStr = `${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日`;
+    
+    elements.newsContainer.innerHTML = `
+        <div class="loading">
+            📰 ${dateStr}<br><br>
+            暂时无法加载实时资讯。<br><br>
+            推荐访问：<br>
+            <a href="https://news.163.com/" target="_blank" style="color: #000; text-decoration: underline; display: block; margin: 5px 0;">网易新闻</a>
+            <a href="https://www.zhihu.com/hot" target="_blank" style="color: #000; text-decoration: underline; display: block; margin: 5px 0;">知乎热榜</a>
+            <a href="https://weibo.com/hot/search" target="_blank" style="color: #000; text-decoration: underline; display: block; margin: 5px 0;">微博热搜</a>
+        </div>
+    `;
 }
 
 // 格式化时间
