@@ -538,7 +538,7 @@ function displayNews(newsArray) {
     }
     
     const newsHTML = newsArray.map(news => `
-        <div class="news-item" onclick="window.open('${news.url || 'https://www.toutiao.com/'}', '_blank')">
+        <div class="news-item">
             <div class="news-title">${news.title}</div>
             <div class="news-description">${news.description || ''}</div>
             <div class="news-time">${news.time}</div>
